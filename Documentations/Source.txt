@@ -1,0 +1,15 @@
+NAvMEsh : 
+https://www.cc.gatech.edu/ai/robot-lab/online-publications/ieee/path86.pdf
+https://accu.org/journals/overload/21/117/golodetz_1838/
+https://medium.com/@mscansian/a-with-navigation-meshes-246fd9e72424
+https://www.researchgate.net/publication/236903107_A_Navigation_Mesh_for_Dynamic_Environments
+
+https://hal.inria.fr/hal-00914578/document
+https://www.jair.org/index.php/jair/article/view/10542/25241
+https://ascane.github.io/assets/portfolio/pathfinding3d-report.pdf
+
+https://fileadmin.cs.lth.se/cs/Personal/Tomas_Akenine-Moller/code/tribox_tam.pdf
+
+https://www.youtube.com/watch?v=xFcQaig5Z2A
+
+https://tel.archives-ouvertes.fr/tel-02508274v2/document
