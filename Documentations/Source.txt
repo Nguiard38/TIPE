@@ -4,6 +4,7 @@ https://accu.org/journals/overload/21/117/golodetz_1838/
 https://medium.com/@mscansian/a-with-navigation-meshes-246fd9e72424
 https://www.researchgate.net/publication/236903107_A_Navigation_Mesh_for_Dynamic_Environments
 
+Intesection Autonome : 
 https://hal.inria.fr/hal-00914578/document
 https://www.jair.org/index.php/jair/article/view/10542/25241
 https://ascane.github.io/assets/portfolio/pathfinding3d-report.pdf
