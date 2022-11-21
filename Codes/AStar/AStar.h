@@ -70,6 +70,7 @@ void ajouter_prio(file* f, noeud* n);
 bool appartient(file* f, noeud* n);
 void mettreAJour(file* f, noeud* n);
 noeud* defiler(file* f);
+noeud* defiler_prio(file* f);
 void free_file(file* f);
 
 //-----------Algo------------------

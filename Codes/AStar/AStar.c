@@ -163,37 +163,25 @@ bool appartient(file* f, noeud* n)
 
 void mettreAJour(file* f, noeud* n)
 {
-    if(!appartient(f, n))
+    if(file_est_vide(f))
     {
-        ajouter_prio(f,n);
+        ajouter_file(f,n);
     }
     else
     {
         noeudFile* actual = f->first;
-        noeudFile* actualPrec = NULL;
         while(!(actual == NULL || memeSommet(actual->val->s,n->s)))
         {
-            actualPrec = actual;
             actual = actual->next;
         }
-        if(actual->val->heuristic > n->heuristic)
+        if(actual == NULL)
         {
-            if(actualPrec != NULL)
-            {
-                
-                actualPrec->next = actual->next;
-                free(actual->val);
-                free(actual);
-                ajouter_prio(f, n);
-                
-            }
-            else
-            {
-                noeud* aLib = actual->val;
-                actual->val = n;
-                free(aLib);
-            }
-            
+            ajouter_file(f,n);
+        }
+        else if(actual->val->heuristic > n->heuristic)
+        {
+            free(actual->val);
+            actual->val = n;
         }
         else
         {
@@ -217,6 +205,47 @@ noeud* defiler(file* f)
         }
         free(premier);
         return res;
+    }
+    else
+    {
+        return NULL;
+    }
+}
+
+noeud* defiler_prio(file* f)
+{
+    if(!file_est_vide(f))
+    {
+        noeudFile* current = f->first;
+        noeudFile* prevMin = NULL;
+        noeudFile* min = f->first;
+        while(current->next != NULL)
+        {
+            if(current->next->val->heuristic < min->val->heuristic)
+            {
+                prevMin = current;
+                min = current->next;
+            }
+            current = current->next;
+        }
+        if(prevMin != NULL)
+        {
+            noeud* res = min->val;
+            prevMin->next = min->next;
+            if(prevMin->next == NULL)
+            {
+                f->last = prevMin;
+            }
+            free(min);
+            return res;
+        }
+        else
+        {
+            noeud* res = min->val;
+            f->first = min->next;
+            free(min);
+            return res;
+        }
     }
     else
     {
@@ -279,8 +308,7 @@ file* trouverVoisins(graphe* g, noeud* u)
 }
 
 path Astar(graphe* g, sommet debut, sommet fin, float v)
-{
-    
+{  
     file* closed = creer_file_vide();
     file* open = creer_file_vide();
     noeud* nDebut = malloc(sizeof(noeud));
