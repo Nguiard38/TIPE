@@ -4,8 +4,8 @@
 #include <math.h>
 
 typedef struct sommet {
-    float x;
-    float y;
+    int x;
+    int y;
     float z;
 } sommet;
 

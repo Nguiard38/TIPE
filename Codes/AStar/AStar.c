@@ -2,7 +2,7 @@
 
 void afficher_sommet(sommet s)
 {
-    printf("%f %f %f\n", s.x, s.y, s.z);
+    printf("%d %d %f\n", s.x, s.y, s.z);
 }
 
 //--------Comparaison Sommets-----------
@@ -64,6 +64,10 @@ void free_pile(pile* p)
 
 void afficher_pile(pile* p)
 {
+    if(p == NULL)
+    {
+        return;
+    }
     noeudPile* current = p->start;
     while(current!= NULL)
     {
@@ -185,8 +189,9 @@ void mettreAJour(file* f, noeud* n)
             }
             else
             {
-                printf("premier");
+                noeud* aLib = actual->val;
                 actual->val = n;
+                free(aLib);
             }
             
         }
@@ -249,7 +254,7 @@ path reconstituerChemin(sommet debut, noeud* fin)
     return res;
 }
 
-file* trouverVoisinsContraintes(graphe* g, noeud* u)
+file* trouverVoisins(graphe* g, noeud* u)
 {
     file* voisins = creer_file_vide();
     for(int i = 0; i < g->nombreSommets; i++)
@@ -300,7 +305,7 @@ path Astar(graphe* g, sommet debut, sommet fin, float v)
             return res;
         }
 
-        file* voisins = trouverVoisinsContraintes(g, u);
+        file* voisins = trouverVoisins(g, u);
         while(!file_est_vide(voisins))
         {
             noeud* v = defiler(voisins);
