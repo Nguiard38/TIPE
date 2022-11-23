@@ -1,20 +1,5 @@
-#include "AStar/AStar.h"
+#include "IntersectionController.h"
 
-#define tailleCroisement 100
-#define tailleTrottoire 35
-#define vitesseMax 14
-#define AccMax 5
-#define intervalleT 0.5
-#define tailleVoiture 2
-
-typedef bool intersection[tailleCroisement][tailleCroisement];
-
-typedef struct croisement {
-    intersection etat;
-    float t0;
-    struct croisement* prec;
-    struct croisement* next;
-} croisement;
 
 void free_croisement(croisement* c)
 {
@@ -27,23 +12,17 @@ void free_croisement(croisement* c)
     }
 }
 
-typedef struct traj {
-    int taille;
-    pile* p;
-    croisement* c;
-} traj;
-
-typedef struct position {
-    int x;
-    int y;
-} position;
-
-void miseAJourCroisement(croisement* c)
+croisement* miseAJourCroisement(croisement* c)
 {
     if(c != NULL)
     {
         c = c->next;
         free(c->prec);
+        return c;
+    }
+    else
+    {
+        return NULL;
     }
 }
 
@@ -215,7 +194,6 @@ file* prochainPoints(croisement* c, noeud* u)
                 new->s.x = u->s.x + i;
                 new->s.y = u->s.y + j;
                 new->s.z = u->s.z + intervalleT;
-
                 new->cout = 0;
                 new->heuristic = 0;
                 new->v = vitesse(u->s, new->s);
@@ -281,7 +259,7 @@ traj CalculTrajAvecFin(croisement* c, sommet debut, sommet fin, float v)
             free_file(open);
             return res;
         }
-        if(u->s.z > fin.z)
+        if(u->s.z >= fin.z)
         {
             position A;
             A.x = u->s.x;
@@ -298,7 +276,7 @@ traj CalculTrajAvecFin(croisement* c, sommet debut, sommet fin, float v)
         while(!file_est_vide(voisins))
         {
             noeud* v = defiler(voisins);
-            v->cout = u->cout + distance3D(u->s, v->s);
+            v->cout = u->cout + distance3D(u->s, v->s)/2;
             v->heuristic = v->cout + distance3D(v->s, fin);
             v->prec = u;
             if(!appartient(closed, v))
@@ -333,7 +311,6 @@ traj CalculTraj(croisement* c, sommet debut, position fin, float v)
     res.p = NULL;
     while(res.p == NULL)
     {
-        printf("temps essayer : %f\n", tempsEssayer);
         sommet finTemps = {fin.x, fin.y, tempsEssayer};
         res = CalculTrajAvecFin(c, debut, finTemps, v);
         if(res.taille == 0)
@@ -350,34 +327,3 @@ traj CalculTraj(croisement* c, sommet debut, position fin, float v)
 }
 
 
-
-int main()
-{
-    sommet debut = {60, 0, 0};
-    sommet debut2 = {40, tailleCroisement-1, 0};
-    position finBas = {40, 0};
-    position finGauche = {0, 60};
-    position finHaut = {60, tailleCroisement-1};
-    position finDroite = {tailleCroisement-1, 40};
-    croisement* c = NULL;
-    traj Voiture1 = CalculTraj(c, debut, finGauche, 0);
-    c = Voiture1.c;
-    if(Voiture1.p != NULL)
-    {
-        afficher_pile(Voiture1.p);
-        free_pile(Voiture1.p);
-    }
-    traj Voiture2 = CalculTraj(c, debut2, finBas, 0);
-    c = Voiture2.c;
- 
-    if(Voiture2.p != NULL)
-    {
-        afficher_pile(Voiture2.p);
-        free_pile(Voiture2.p);
-    }
-    if(c != NULL)
-    {
-        free_croisement(c);
-    }
-    
-}
