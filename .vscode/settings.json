@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "astar.h": "c",
+        "intersectioncontroller.h": "c"
+    }
+}

@@ -7,10 +7,18 @@ https://www.researchgate.net/publication/236903107_A_Navigation_Mesh_for_Dynamic
 Intesection Autonome : 
 https://hal.inria.fr/hal-00914578/document
 https://www.jair.org/index.php/jair/article/view/10542/25241
-https://ascane.github.io/assets/portfolio/pathfinding3d-report.pdf
 
+
+
+Strucuture de donne : 
 https://fileadmin.cs.lth.se/cs/Personal/Tomas_Akenine-Moller/code/tribox_tam.pdf
 
 https://www.youtube.com/watch?v=xFcQaig5Z2A
 
+Path Finding : 
+https://ascane.github.io/assets/portfolio/pathfinding3d-report.pdf
 https://tel.archives-ouvertes.fr/tel-02508274v2/document
+
+
+Programmation : 
+http://www.openoffice.org/sc/excelfileformat.pdf
