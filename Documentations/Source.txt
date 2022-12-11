@@ -13,7 +13,11 @@ https://www.jair.org/index.php/jair/article/view/10542/25241
 Rasche et Naumann : 
 https://sci-hub.hkvisa.net/10.1109/5254.683216
 
+https://d1wqtxts1xzle7.cloudfront.net/30660307/Dressner-with-cover-page-v2.pdf?Expires=1669839107&Signature=PeY0zAaaRoc7DZ1W7~MisC1u6iP4C~ZXpHhViOmBI2rGAJgkO2jfiaSjMVuNNt89zzUyQ7KcVVyjwkm7Cmw1tync1SsGqh0xdFu7q~nwdyDovdFM9nXHwBBdzno-EI6IyJz0AXMb~EszMOhh1X5j2ahvQk3invR6lX08UZbVNWaJm1CJos1nTw3EZ7g~i0HLiZwTJtkhcHK4z6Na~jQuWBB8CxtvCtck5GRhhLR8YmqTRsbqfrHiqzW3Dt~RR5Ll7hFjiS8-QgE9vuFhP43exaIoYMomeA48B~r-Je~bCbi58SGSwfqLRXQbcCzTgiNjTtk2itfhba76mMTHt2yDmw__&Key-Pair-Id=APKAJLOHF5GGSLRBV4ZA
+https://www.cs.utexas.edu/~pstone/Papers/bib2html-links/ICCPS12-Fok.pdf
 
+Detection Pietons : 
+https://web.archive.org/web/20061210062127/http://www.gavrila.net:80/iv04_protector.pdf
 
 Strucuture de donne : 
 https://fileadmin.cs.lth.se/cs/Personal/Tomas_Akenine-Moller/code/tribox_tam.pdf
