@@ -5,14 +5,14 @@ au code de la route déjà en place et fonctionner avec des feux ou des stop. Ma
 la communication entre infrastrucutre et voitures et on pourrait alors imaginer des intersections autonomes.
 Une telles intersection devra être sur pour tout type de usagers et donner la priorités aux pietons et aux cycliste.
 De plus elle devra optimiser le traffic pour réduire au maximum les embouteillages et réduire aussi la pollution liés
-à l'accleration des voitures. En effet en ville les voitures s'arretes et redémarre souvent ce qui favorise le rejet 
-de CO2.
+à l'accleration des voitures.
 
 En 2008 Drensner et Stones apporte une solution par une approche de multi agent, un driver agent et un intersection manager.
 Cela fonctionne sur un système de réservation la voiture envoie une requête pour réserver. L'intersection accepte ou non et renvoie 
 la réponse à la voiture qui ajuste sa vitesse en conséquence. 
 
 En 2013 Tlig, Buffet et Simonin travaille sur la synchronisation de flux de voitures. Pour être sur que aucunes voitures
-ne s'arrête calcul la diastance entre deux voiture du même fluc pour que les voitures des deux flux se croisent parfaitement.
+ne s'arrête ils calcul la distance entre deux voiture du même flux pour que les voitures des deux flux se croisent parfaitement.*
+Ils approffondissent en calculant la distance selon l'angle entre les deux routes.
 
-NE 2004 Gavrilla, Giebel et Munder commence à développer un système de tection de pietons et de prédiction de leur trajectoire.
+En 2004 Gavrilla, Giebel et Munder commence à développer un système detection de pietons et de prédiction de leur trajectoire.
