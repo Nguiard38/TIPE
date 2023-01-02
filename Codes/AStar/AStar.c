@@ -64,6 +64,7 @@ void free_pile(pile* p)
 
 void afficher_pile(pile* p)
 {
+    FILE* f = fopen("Positions_Voitures", "a");
     if(p == NULL)
     {
         return;
@@ -71,6 +72,7 @@ void afficher_pile(pile* p)
     noeudPile* current = p->start;
     while(current!= NULL)
     {
+        fprintf(f, "",current);
         afficher_sommet(current->val);
         current = current->next;
         printf("\n");

@@ -1,11 +1,28 @@
-Les voitures autonomes sont au centre du developpement de beaucoup de technologies et leur fonctionnement 
-dans la ville pose beaucoup de question sur la cohabitation entre les différents usagers. En particlier 
-pour les intersections qui sont les endroits a haut risques. Les voitures autonomes pourrait facilement s'adapter 
-au code de la route déjà en place et fonctionner avec des feux ou des stop. Mais le developpement de la 5g, facilite 
-la communication entre infrastrucutre et voitures et on pourrait alors imaginer des intersections autonomes.
-Une telles intersection devra être sur pour tout type de usagers et donner la priorités aux pietons et aux cycliste.
-De plus elle devra optimiser le traffic pour réduire au maximum les embouteillages et réduire aussi la pollution liés
-à l'accleration des voitures.
+Depuis plusieurs années, les recherches sur les intersections autonomes ont connu un développement rapide dans le monde entier. 
+Les intersections sont des points de convergence critiques pour les véhicules autonomes, car elles nécessitent une communication et 
+une coordination précises entre les véhicules pour garantir la sécurité et la fluidité de la circulation.
+Les chercheurs du monde entier se sont penchés sur différentes approches pour gérer les intersections autonomes, 
+en utilisant des technologies telles que la communication entre les véhicules et entre les autres infrastrucutres (V2X), les capteurs de proximité et les 
+technologies de localisation. Plusieurs démonstrations de concept ont été réalisées dans différentes villes du monde, 
+montrant comment les voitures autonomes peuvent échanger des informations et coordonner leur passage à une intersection.
+
+
+
+"A Survey of Vehicle to Everything (V2X) Testing" de Jian Wang,Yameng Shao, YUming Ge ans Rundong Yu  (2019). 
+Cet article traite de la technologies V2X qui permet aux vehicules de communiquer avec les autres vehicules (V2V) mais aussi 
+avec les infrastructures (V2I), les pietons (V2P) et le cloud (V2C).
+
+https://www.mdpi.com/1424-8220/19/2/334?type=check_update&version=1
+
+"Proximity Sensing for Connected and Autonomous Vehicle Intersection Management" de S. S. Ge et al. (2018). 
+Cet article décrit une approche de gestion de l'intersection basée sur les capteurs de proximité pour les véhicules autonomes. 
+Il montre comment les capteurs de proximité peuvent être utilisés pour détecter les véhicules et les piétons à l'intersection et 
+comment ils peuvent être combinés avec d'autres technologies (par exemple, la communication V2V) pour améliorer la sécurité et l'efficacité de la circulation.
+
+"Localization for Intersection Management in Connected and Autonomous Vehicle Systems" de L. Li et al. (2019). 
+Cet article décrit une approche de gestion de l'intersection basée sur la localisation pour les véhicules autonomes.
+Il montre comment la localisation peut être utilisée pour détecter les véhicules et les piétons à l'intersection et comment 
+elle peut être combinée avec d'autres technologies (par exemple, la communication V2V) pour améliorer la sécurité et l'efficacité de la circulation.
 
 En 2008 Drensner et Stones apporte une solution par une approche de multi agent, un driver agent et un intersection manager.
 Cela fonctionne sur un système de réservation la voiture envoie une requête pour réserver. L'intersection accepte ou non et renvoie 
@@ -16,3 +33,10 @@ ne s'arrête ils calcul la distance entre deux voiture du même flux pour que le
 Ils approffondissent en calculant la distance selon l'angle entre les deux routes.
 
 En 2004 Gavrilla, Giebel et Munder commence à développer un système detection de pietons et de prédiction de leur trajectoire.
+
+
+Malgré ces avancées, il reste encore beaucoup de défis à relever pour que les intersections autonomes deviennent une réalité sur les routes du monde entier. 
+Tout d'abord, il faut s'assurer que les voitures autonomes peuvent échanger des informations de manière fiable et sécurisée, 
+sans être perturbées par des interférences ou des attaques. Deuxièmement, il faut développer des algorithmes de gestion de la circulation 
+capables de gérer efficacement les véhicules autonomes, en prenant en compte les différentes variables qui peuvent influencer leur comportement 
+(vitesse, distance, angle, etc.). Enfin, il faut tenir compte des éventuelles répercussions sur l'environnement et sur les piétons et cyclistes.
