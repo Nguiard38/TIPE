@@ -5,9 +5,10 @@ https://www.researchgate.net/publication/236903107_A_Navigation_Mesh_for_Dynamic
 Intesection Autonome : 
 https://hal.inria.fr/hal-00914578/document
 
-Dresner et Stones :
+Dresner et Stones : Multi agent reservation
 https://www.jair.org/index.php/jair/article/view/10542/25241
 
+Qiu Jin, Guoyuan Wu, Kanok Boriboonsomsin et Mattew Barth : Platoon Based multiagent intersection
 Rasche et Naumann : 
 https://sci-hub.hkvisa.net/10.1109/5254.683216
 

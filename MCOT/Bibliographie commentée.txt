@@ -17,7 +17,7 @@ capables de gérer efficacement les véhicules autonomes, en prenant en compte l
 (vitesse, distance, angle, etc.). En 2008 Drensner et Stones apporte une solution par une approche de multi agent, un driver agent et un intersection manager.
 Cela fonctionne sur un système de réservation la voiture envoie une requête pour réserver. L'intersection accepte ou non et renvoie 
 la réponse à la voiture qui ajuste sa vitesse en conséquence. En 2013 Qiu Jin, Guoyuan Wu, Kanok Boriboonsomsin et Mattew Barth approffondissent l'idée de 
-reservation en regroupant les voitures par peloton, une voiture isolé essayera de rattraper un peloton pour passer avec dans l'intersection.
+reservation en regroupant les voitures par peloton, une voiture isolé essayera de rattraper un peloton pour passer avec celui ci dans l'intersection.
 En 2013 Tlig, Buffet et Simonin travaille eux sur la synchronisation de flux de voitures. Pour être sur que aucunes voitures
 ne s'arrête ils calcul la distance entre deux voiture du même flux pour que les voitures des deux flux se croisent parfaitement.
 Ils approffondissent en calculant la distance selon l'angle entre les deux routes.
