@@ -1,10 +1,13 @@
 #include "/home/nathan/Prepa/TIPE/Codes/IntersectionController/IntersectionController.h"
 
-int main()
+int main(int argc, char * argv[])
 {
     float t = 0.0f;
     int nbrVoiture = 0;
+    int nbVoitureTotal = 0;
     croisement* c = NULL;
+
+
 
     position debutBas = {60, 0};
     position debutGauche = {0, 40};
@@ -24,6 +27,7 @@ int main()
         {
             position debut;
             int rep;
+            nbVoitureTotal++;
             printf("Par où la voiture %d arrive ?  (0 = bas, 1 = gauche, 2 = haut, 3 = droite)", i);
             scanf("%d", &rep);
             switch (rep)
@@ -82,7 +86,7 @@ int main()
             traj trajVoiture = CalculTraj(c, debutT, fin, vitesse);
             c = trajVoiture.c;
 
-            afficher_pile(trajVoiture.p);
+            afficher_pile(trajVoiture.p, nbVoitureTotal,argv[1]);
             free_pile(trajVoiture.p);
             
         }

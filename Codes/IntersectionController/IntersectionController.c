@@ -39,60 +39,13 @@ traj reconstituerTraj(sommet debut, noeud* fin, croisement* c)
         current->next = NULL;
 
         //Init trottoire
-        for(int i = 0; i < tailleTrottoire; i++)
-        {
-            for(int j = 0; j < tailleTrottoire; j++)
-            {
-                current->etat[i][j] = true;
-            }
-        }
-        for(int i = tailleCroisement-tailleTrottoire; i < tailleCroisement; i++)
-        {
-            for(int j = 0; j < tailleTrottoire; j++)
-            {
-                current->etat[i][j] = true;
-            }
-        }
-        for(int i = 0; i < tailleTrottoire; i++)
-        {
-            for(int j = tailleCroisement-tailleTrottoire; j < tailleCroisement; j++)
-            {
-                current->etat[i][j] = true;
-            }
-        }
-        for(int i = tailleCroisement-tailleTrottoire; i < tailleCroisement; i++)
-        {
-            for(int j = tailleCroisement-tailleTrottoire; j < tailleCroisement; j++)
-            {
-                current->etat[i][j] = true;
-            }
-        }
-
-        //Init Route
         for(int i = 0; i < tailleCroisement; i++)
         {
-            for(int j = tailleTrottoire; j < tailleCroisement-tailleTrottoire; j++)
+            for(int j = 0; j < tailleCroisement; j++)
             {
                 current->etat[i][j] = false;
             }
         }
-
-        for(int i = tailleTrottoire; i < tailleCroisement-tailleTrottoire; i++)
-        {
-            for(int j = tailleTrottoire; j < tailleCroisement-tailleTrottoire; j++)
-            {
-                current->etat[i][j] = false;
-            }
-        }
-
-        for(int i = tailleTrottoire; i < tailleCroisement-tailleTrottoire; i++)
-        {
-            for(int j = tailleCroisement-tailleTrottoire; j < tailleCroisement; j++)
-            {
-                current->etat[i][j] = false;
-            }
-        }
-
     }
     while(current->next != NULL && current->t0 < fin->s.z)
     {

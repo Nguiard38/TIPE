@@ -62,17 +62,54 @@ void free_pile(pile* p)
     free(p);
 }
 
-void afficher_pile(pile* p)
+int tailleStr(char* str)
 {
-    FILE* f = fopen("Positions_Voitures", "a");
+    int i = 0;
+    while(str[i] != '\0')
+    {
+        i++;
+    }
+    return i;
+}
+
+
+char* concat(char* str1, char* str2)
+{
+    int n1 = tailleStr(str1);
+    int n2 = tailleStr(str2);
+    char* res = malloc(sizeof(char) * (n1+n2+1));
+    int i,j;
+    for(i = 0; i < n1; i++)
+    {
+        res[i] = str1[i];
+    }
+    for(j = 0; j < n2; j++,i++)
+    {
+        res[i] = str2[j];
+    }
+    res[i] = '\0';
+    return res;
+}
+
+void afficher_pile(pile* p, int indice_voiture, char* nomFichier)
+{
+    char* prePath = "ResultatSimulation/";
+    char* path = concat(prePath, nomFichier);
+
+    printf("path : %s\n", path);
+
+    FILE* f = fopen(path, "a+");
+    free(path);
+    fprintf(f, "Voiture %d\n", indice_voiture);
     if(p == NULL)
     {
+        fclose(f);
         return;
     }
     noeudPile* current = p->start;
     while(current!= NULL)
     {
-        fprintf(f, "",current);
+        fprintf(f,"%d %d %f\n", current->val.x, current->val.y, current->val.z);
         afficher_sommet(current->val);
         current = current->next;
         printf("\n");
