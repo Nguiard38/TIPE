@@ -99,6 +99,7 @@ void afficher_pile(pile* p, int indice_voiture, char* nomFichier)
     printf("path : %s\n", path);
 
     FILE* f = fopen(path, "a+");
+    fseek(f, 0, SEEK_END);
     free(path);
     fprintf(f, "Voiture %d\n", indice_voiture);
     if(p == NULL)

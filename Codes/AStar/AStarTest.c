@@ -44,7 +44,7 @@ int main()
     graphe g = {7, liaisonG};
 
     path plusCourt = Astar(&g, u, D, 0);
-    afficher_pile(plusCourt.p);
+    afficher_pile(plusCourt.p, 0, "AStarTest");
     free_pile(plusCourt.p);
 
 }

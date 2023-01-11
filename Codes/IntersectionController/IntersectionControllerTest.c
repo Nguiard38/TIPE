@@ -15,7 +15,7 @@ int main()
     c = Voiture1.c;
     if(Voiture1.p != NULL)
     {
-        afficher_pile(Voiture1.p);
+        afficher_pile(Voiture1.p, 1, "IntersectionControllerTest");
         free_pile(Voiture1.p);
     }
 
@@ -25,7 +25,7 @@ int main()
  
     if(Voiture2.p != NULL)
     {
-        afficher_pile(Voiture2.p);
+        afficher_pile(Voiture2.p, 2, "IntersectionControllerTest");
         free_pile(Voiture2.p);
     }
     if(c != NULL)

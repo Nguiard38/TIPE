@@ -7,17 +7,18 @@ int main(int argc, char * argv[])
     int nbVoitureTotal = 0;
     croisement* c = NULL;
 
+    int milieu1 = (tailleCroisement/2 + tailleTrottoire)/2;
+    int milieu2 = (tailleCroisement/2 + (tailleCroisement - tailleTrottoire ))/2;
 
+    position debutHaut = {milieu2, 0};
+    position debutGauche = {0, milieu1};
+    position debutBas = {milieu1, tailleCroisement-1};
+    position debutDroite = {tailleCroisement-1, milieu2};
 
-    position debutBas = {60, 0};
-    position debutGauche = {0, 40};
-    position debutHaut = {40, tailleCroisement-1};
-    position debutDroite = {tailleCroisement-1, 60};
-
-    position finBas = {40, 0};
-    position finGauche = {0, 60};
-    position finHaut = {60, tailleCroisement-1};
-    position finDroite = {tailleCroisement-1, 40};
+    position finHaut = {milieu1, 0};
+    position finGauche = {0, milieu2};
+    position finBas = {milieu2, tailleCroisement-1};
+    position finDroite = {tailleCroisement-1, milieu1};
 
     printf("Combien de voiture voulez vous ajouter ? ");
     scanf("%d", &nbrVoiture);
