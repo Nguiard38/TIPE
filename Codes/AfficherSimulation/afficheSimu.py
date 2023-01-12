@@ -3,7 +3,7 @@ import sys
 
 deltaTime = 0.5
 prePath = "ResultatSimulation/"
-nomFichier = "test papa 4"
+nomFichier = "test maman 2"
 path = prePath + nomFichier
 fichier = open(path, "r")
 
@@ -54,18 +54,28 @@ arrierePlan = py.transform.scale(arrierePlan, (1000,1000))
 screen.blit(arrierePlan, (0,0))
 
 py.display.flip()
-actualTime = 0
+actualTime = -0.5
 while True:
     for event in py.event.get():
         if event.type == py.QUIT: 
             sys.exit()
-        if event.type == py.KEYDOWN and event.key == py.K_SPACE:
+        if event.type == py.KEYDOWN and event.key == py.K_RIGHT:
+            actualTime += deltaTime
             screen.blit(arrierePlan, (0,0))
             for voiture in res[actualTime]:
                 print("blit voiture : ")
                 print(voiture[1:])
                 screen.blit(voitureRouge, voiture[1:])
-            actualTime += deltaTime
+            py.display.update()
+            print("Espace")
+        if event.type == py.KEYDOWN and event.key == py.K_LEFT:
+            actualTime -= deltaTime
+            screen.blit(arrierePlan, (0,0))
+            for voiture in res[actualTime]:
+                print("blit voiture : ")
+                print(voiture[1:])
+                screen.blit(voitureRouge, voiture[1:])
+            
             py.display.update()
             print("Espace")
     

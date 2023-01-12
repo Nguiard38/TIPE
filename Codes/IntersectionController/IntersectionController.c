@@ -38,7 +38,6 @@ traj reconstituerTraj(sommet debut, noeud* fin, croisement* c)
         current->prec = NULL;
         current->next = NULL;
 
-        //Init trottoire
         for(int i = 0; i < tailleCroisement; i++)
         {
             for(int j = 0; j < tailleCroisement; j++)
@@ -71,6 +70,8 @@ traj reconstituerTraj(sommet debut, noeud* fin, croisement* c)
     while(!memeSommet(actual->s, debut))
     {
         taille++;
+
+        //Mettre a jour la hitbox de la voiture
         current->etat[actual->s.x][actual->s.y] = true;
         if(!(actual->s.x > 0))
         {
@@ -254,6 +255,7 @@ traj CalculTrajAvecFin(croisement* c, sommet debut, sommet fin, float v)
 
 traj CalculTraj(croisement* c, sommet debut, position fin, float v)
 {
+   
     float ux = fin.x - debut.x;
     float uy = fin.y - debut.y;
     float distance = sqrt(pow(ux, 2) + pow(uy,2));

@@ -10,17 +10,17 @@ int main(int argc, char * argv[])
     int milieu1 = (tailleCroisement/2 + tailleTrottoire)/2;
     int milieu2 = (tailleCroisement/2 + (tailleCroisement - tailleTrottoire ))/2;
 
-    position debutHaut = {milieu2, 0};
-    position debutGauche = {0, milieu1};
-    position debutBas = {milieu1, tailleCroisement-1};
-    position debutDroite = {tailleCroisement-1, milieu2};
+    position debutHaut = {milieu1, 0};
+    position debutGauche = {0, milieu2};
+    position debutBas = {milieu2, tailleCroisement-1};
+    position debutDroite = {tailleCroisement-1, milieu1};
 
-    position finHaut = {milieu1, 0};
-    position finGauche = {0, milieu2};
-    position finBas = {milieu2, tailleCroisement-1};
-    position finDroite = {tailleCroisement-1, milieu1};
+    position finHaut = {milieu2, 0};
+    position finGauche = {0, milieu1};
+    position finBas = {milieu1, tailleCroisement-1};
+    position finDroite = {tailleCroisement-1, milieu2};
 
-    printf("Combien de voiture voulez vous ajouter ? ");
+    printf("Combien de voiture voulez vous ajouter ? (t : %f)", t);
     scanf("%d", &nbrVoiture);
     while(nbrVoiture != -1)
     {
@@ -57,7 +57,6 @@ int main(int argc, char * argv[])
             {
             case 0:
                 fin = finBas;
-                printf("Fin bas");
                 break;
             case 1:
                 fin = finGauche;
@@ -94,7 +93,7 @@ int main(int argc, char * argv[])
 
         c = miseAJourCroisement(c);
         t = t + intervalleT;
-        printf("Combien de voiture voulez vous ajouter ?");
+        printf("Combien de voiture voulez vous ajouter ? (t : %f)", t);
         scanf("%d", &nbrVoiture);
     }
     free_croisement(c);

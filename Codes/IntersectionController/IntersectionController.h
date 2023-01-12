@@ -1,7 +1,7 @@
 #include "/home/nathan/Prepa/TIPE/Codes/AStar/AStar.h"
 
 #define tailleCroisement 100
-#define tailleTrottoire 50
+#define tailleTrottoire 40
 #define vitesseMax 14
 #define AccMax 5
 #define intervalleT 0.5
