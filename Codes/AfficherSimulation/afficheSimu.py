@@ -1,9 +1,9 @@
 import pygame as py
 import sys
 
-deltaTime = 0.5
+deltaTime = 2
 prePath = "ResultatSimulation/"
-nomFichier = "test maman 2"
+nomFichier = "test 13|01 4"
 path = prePath + nomFichier
 fichier = open(path, "r")
 
@@ -20,7 +20,7 @@ for line in tab:
         lineSansRetour = line[:(len(line) - 2)].split()
         x = 10*int(lineSansRetour[0])
         y = 10*int(lineSansRetour[1])
-        time = float(lineSansRetour[2])
+        time = int ((round(float(lineSansRetour[2]),1)*10))
         try: 
             res[time].append((i,x,y))
             print("append")
@@ -54,7 +54,7 @@ arrierePlan = py.transform.scale(arrierePlan, (1000,1000))
 screen.blit(arrierePlan, (0,0))
 
 py.display.flip()
-actualTime = -0.5
+actualTime = -deltaTime
 while True:
     for event in py.event.get():
         if event.type == py.QUIT: 

@@ -1,23 +1,38 @@
 #include "IntersectionController.h"
 
 
-void free_croisement(croisement* c)
+
+void free_croisement(croisement* c, parametresCroisements globalParametre)
 {
     croisement* current = c;
     while(current != NULL)
     {
         croisement* aLib = current;
         current = current->next;
+        for(int i = 0; i < globalParametre.nbrDivision; i++)
+        {
+            free(aLib->etat[i]);
+        }
+        free(aLib->etat);
         free(aLib);
+
     }
 }
 
-croisement* miseAJourCroisement(croisement* c)
+croisement* miseAJourCroisement(croisement* c, parametresCroisements globalParametre)
 {
     if(c != NULL)
     {
         c = c->next;
+       
+        for(int i = 0; i < globalParametre.nbrDivision; i++)
+        {
+            //free(c->prec->etat[i]);
+        }
+        free(c->prec->etat);
         free(c->prec);
+
+        
         return c;
     }
     else
@@ -26,74 +41,88 @@ croisement* miseAJourCroisement(croisement* c)
     }
 }
 
-traj reconstituerTraj(sommet debut, noeud* fin, croisement* c)
+traj reconstituerTraj(sommet debut, noeud* fin, croisement* c, parametresCroisements globalParametre)
 {
     printf("Reconstituer Chemin\n");
     noeud* actual = fin;
     croisement* current = c;
+    croisement* currentPrec = NULL;
+    float t;
+
     if(current == NULL)
     {
-        current = malloc(sizeof(croisement));
-        current->t0 = debut.z;
-        current->prec = NULL;
-        current->next = NULL;
+        t = debut.z;
+    }
+    else
+    {
+        while(current != NULL && current->t0 < fin->s.z)
+        {
+            currentPrec = current;
+            current = current->next;
+        }
+        t = currentPrec->t0;
+        
+        
+    }
+    
 
-        for(int i = 0; i < tailleCroisement; i++)
+    while(t < fin->s.z)
+    {
+        current = malloc(sizeof(croisement));
+        current->etat = malloc(sizeof(bool*) * globalParametre.nbrDivision);
+        for(int i = 0; i < globalParametre.nbrDivision; i++)
         {
-            for(int j = 0; j < tailleCroisement; j++)
+            current->etat[i] = malloc(sizeof(bool) * globalParametre.nbrDivision);
+            for(int j = 0; j < globalParametre.nbrDivision; j++)
             {
-                current->etat[i][j] = false;
+                current->etat[i][j] = globalParametre.init[i][j];
             }
         }
-    }
-    while(current->next != NULL && current->t0 < fin->s.z)
-    {
-        current = current->next;
-    }
-    while(current->t0 < fin->s.z)
-    {
-        current->next = malloc(sizeof(croisement));
-        current->next->t0 = current->t0 + intervalleT;
-        current->next->next = NULL;
-        current->next->prec = current;
-        for(int i = 0; i < tailleCroisement; i++)
+        current->t0 = t;
+        current->next = NULL;
+        current->prec = currentPrec;
+
+        if(currentPrec != NULL)
         {
-            for(int j = 0; j < tailleCroisement; j++)
-            {
-                current->etat[i][j] = false;
-            }
+            currentPrec->next = current;
         }
-        current = current->next;
+        
+        
+        currentPrec = current;
+        current = NULL;
+        t = t + globalParametre.intervalleT;
     }
+    printf("t : %f\n", t);
+    printf("tfin : %f\n", actual->s.z);
+    current = currentPrec;
     int taille = 1;
     pile* p = creer_pile_vide();
     while(!memeSommet(actual->s, debut))
     {
         taille++;
-
         //Mettre a jour la hitbox de la voiture
-        current->etat[actual->s.x][actual->s.y] = true;
-        if(!(actual->s.x > 0))
+        float tailleCase = ((float)globalParametre.tailleCroisement/(float)globalParametre.nbrDivision);
+        int nbrCase = (globalParametre.tailleVoiture - tailleCase)/(2*tailleCase) + 1;
+        if(nbrCase < 0)
         {
-            if((actual->s.y > 0))
+            nbrCase = 0;
+        }
+        for(int i = actual->s.x-nbrCase; i <= nbrCase+actual->s.x; i++)
+        {
+            for(int j = actual->s.y-nbrCase; j <= actual->s.y+nbrCase; j++)
             {
-                current->etat[actual->s.x][actual->s.y-1] = true;
+                if(i >= 0 && i < globalParametre.nbrDivision)
+                {
+                    current->etat[i][j] = true;
+                }
             }
         }
-        else
-        {
-            if(actual->s.y > 0)
-            {
-                current->etat[actual->s.x-1][actual->s.y-1] = true;
-            }
-            current->etat[actual->s.x-1][actual->s.y] = true;
-            
-        }
-       
-        
 
+        if(current->prec != NULL)
+        {
+            current = current->prec;
+        }
         
-        current = current->prec;
         ajouter_pile(p, actual->s);
         actual = (actual->prec);
     }
@@ -111,63 +140,62 @@ float distance2D(position A, position B)
     return distance;
 }
 
-float vitesse(sommet A, sommet B)
+float vitesse(sommet A, sommet B, parametresCroisements globalParametre)
 {
-    float ux = B.x - A.x;
-    float uy = B.y - A.y;
+    float tailleCase = ((float)globalParametre.tailleCroisement/(float)globalParametre.nbrDivision);
+    float ux = (B.x - A.x)*tailleCase;
+    float uy = (B.y - A.y)*tailleCase;
     float deltaT = B.z - A.z;
     float distance = sqrt(pow(ux, 2) + pow(uy,2));
     return distance/deltaT;
 }
 
-float acc(noeud* A, sommet B)
+float acc(noeud* A, sommet B, parametresCroisements globalParametre)
 {
-    return A->v - vitesse(A->s, B);
+    return A->v - vitesse(A->s, B, globalParametre);
 }
 
-bool surTrottoire(int i, int j)
-{
-    bool basGauche = i < tailleTrottoire && j < tailleTrottoire;
-    bool hautGauche = i < tailleTrottoire && j >= tailleCroisement-tailleTrottoire;
-    bool basDroit = i >= tailleCroisement-tailleTrottoire && j < tailleTrottoire;
-    bool hautDroit = i >= tailleCroisement-tailleTrottoire && j >= tailleCroisement-tailleTrottoire;
-    return basGauche || hautGauche || basDroit || hautDroit;
-}
-
-file* prochainPoints(croisement* c, noeud* u)
+file* prochainPoints(croisement* c, noeud* u, parametresCroisements globalParametre)
 {
     file* voisins = creer_file_vide();
-    int rayonMax = vitesseMax/intervalleT;
+    int rayonMax = globalParametre.vitesseMax/globalParametre.intervalleT;
     for(int i = -rayonMax; i < rayonMax; i ++)
     {
         for(int j = -rayonMax; j < rayonMax; j++)
         {
-            if(u->s.x + i >= 0 && u->s.x + i < tailleCroisement && u->s.y + j >= 0 && u->s.y + j < tailleCroisement)
+            if(u->s.x + i >= 0 && u->s.x + i < globalParametre.nbrDivision && u->s.y + j >= 0 && u->s.y + j < globalParametre.nbrDivision)
             {
                 noeud* new = malloc(sizeof(noeud));
                 new->s.x = u->s.x + i;
                 new->s.y = u->s.y + j;
-                new->s.z = u->s.z + intervalleT;
+                new->s.z = u->s.z + globalParametre.intervalleT;
                 new->cout = 0;
                 new->heuristic = 0;
-                new->v = vitesse(u->s, new->s);
+                new->v = vitesse(u->s, new->s, globalParametre);
                 new->prec = NULL;
-                if(new->v <= vitesseMax && sqrt(pow(acc(u, new->s),2)) <= AccMax)
+                if(new->v <= globalParametre.vitesseMax && sqrt(pow(acc(u, new->s,globalParametre),2)) <= globalParametre.AccMax)
                 {
-                    if(c == NULL  || !c->etat[u->s.x + i][u->s.y + j])
+                    if(c != NULL)
                     {
-                        if(!surTrottoire(u->s.x + i, u->s.y + j))
+                        if(!c->etat[u->s.x + i][u->s.y + j])
                         {
                             ajouter_file(voisins, new);
                         }
-                        else
+                        else 
                         {
                             free(new);
                         }
                     }
                     else
                     {
-                        free(new);
+                        if(!globalParametre.init[u->s.x + i][u->s.y + j])
+                        {
+                            ajouter_file(voisins, new);
+                        }
+                        else 
+                        {
+                            free(new);
+                        }
                     }
                 }
                 else
@@ -181,7 +209,7 @@ file* prochainPoints(croisement* c, noeud* u)
 
 }
 
-traj CalculTrajAvecFin(croisement* c, sommet debut, sommet fin, float v)
+traj CalculTrajAvecFin(croisement* c, sommet debut, sommet fin, float v, parametresCroisements globalParametre)
 {
     traj pasChemin;
     croisement* current = c;
@@ -204,11 +232,9 @@ traj CalculTrajAvecFin(croisement* c, sommet debut, sommet fin, float v)
 
         noeud* u = defiler_prio(open);
         ajouter_file(closed, u);
-
         if(memeSommet(u->s, fin))
         {
-            printf("Trouver chemin\n");
-            traj res = reconstituerTraj(debut, u, c);
+            traj res = reconstituerTraj(debut, u, c, globalParametre);
             free_file(closed);
             free_file(open);
             return res;
@@ -221,14 +247,18 @@ traj CalculTrajAvecFin(croisement* c, sommet debut, sommet fin, float v)
             position B;
             B.x = fin.x;
             B.y = fin.y;
-            pasChemin.taille = distance2D(A, B)/vitesseMax;
+            pasChemin.taille = (distance2D(A, B)/globalParametre.vitesseMax);
             free_file(closed);
             free_file(open);
             break;
         }
-        file* voisins = prochainPoints(current, u);
+
+
+        file* voisins = prochainPoints(current, u, globalParametre);
+
         while(!file_est_vide(voisins))
         {
+
             noeud* v = defiler(voisins);
             v->cout = u->cout + distance3D(u->s, v->s)/2;
             v->heuristic = v->cout + distance3D(v->s, fin);
@@ -253,13 +283,13 @@ traj CalculTrajAvecFin(croisement* c, sommet debut, sommet fin, float v)
 
 }
 
-traj CalculTraj(croisement* c, sommet debut, position fin, float v)
+traj CalculTraj(croisement* c, sommet debut, position fin, float v, parametresCroisements globalParametre)
 {
-   
+    printf("Calcul traj\n");
     float ux = fin.x - debut.x;
     float uy = fin.y - debut.y;
     float distance = sqrt(pow(ux, 2) + pow(uy,2));
-    int tempsMin = distance/vitesseMax;
+    int tempsMin = distance/globalParametre.vitesseMax;
     float tempsEssayer = tempsMin;
     traj res;
     res.taille = 0;
@@ -267,14 +297,15 @@ traj CalculTraj(croisement* c, sommet debut, position fin, float v)
     while(res.p == NULL)
     {
         sommet finTemps = {fin.x, fin.y, tempsEssayer};
-        res = CalculTrajAvecFin(c, debut, finTemps, v);
+        res = CalculTrajAvecFin(c, debut, finTemps, v, globalParametre);
+        tempsEssayer = tempsEssayer + globalParametre.intervalleT;
         if(res.taille == 0)
         {
-            tempsEssayer = tempsEssayer + intervalleT;
+            tempsEssayer = tempsEssayer + globalParametre.intervalleT;
         }
         else
         {
-            tempsEssayer = tempsEssayer + res.taille;
+            tempsEssayer = tempsEssayer + res.taille*globalParametre.intervalleT;
         }
         
     }

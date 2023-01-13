@@ -1,4 +1,5 @@
 tailleCroisement : 100
+nbrDivision : 100
 tailleTrottoire : 40
 vitesseMax : 14
 AccMax : 5

@@ -1,13 +1,18 @@
-#include "/home/nathan/Prepa/TIPE/Codes/AStar/AStar.h"
+#include "../AStar/AStar.h"
 
-#define tailleCroisement 100
-#define tailleTrottoire 40
-#define vitesseMax 14
-#define AccMax 5
-#define intervalleT 0.5
-#define tailleVoiture 2
+typedef bool** intersection;
 
-typedef bool intersection[tailleCroisement][tailleCroisement];
+typedef struct parametresCroisements 
+{
+    int tailleCroisement;
+    int nbrDivision;
+    intersection init;
+    int vitesseMax;
+    int AccMax;
+    float intervalleT;
+    float tailleVoiture;
+
+} parametresCroisements;
 
 typedef struct croisement {
     intersection etat;
@@ -28,13 +33,12 @@ typedef struct position {
 } position;
 
 
-void free_croisement(croisement* c);
-croisement* miseAJourCroisement(croisement* c);
-traj reconstituerTraj(sommet debut, noeud* fin, croisement* c);
+void free_croisement(croisement* c, parametresCroisements globalParametre);
+croisement* miseAJourCroisement(croisement* c, parametresCroisements globalParametre);
+traj reconstituerTraj(sommet debut, noeud* fin, croisement* c, parametresCroisements globalParametre);
 float distance2D(position A, position B);
-float vitesse(sommet A, sommet B);
-float acc(noeud* A, sommet B);
-bool surTrottoire(int i, int j);
-file* prochainPoints(croisement* c, noeud* u);
-traj CalculTrajAvecFin(croisement* c, sommet debut, sommet fin, float v);
-traj CalculTraj(croisement* c, sommet debut, position fin, float v);
+float vitesse(sommet A, sommet B, parametresCroisements globalParametre);
+float acc(noeud* A, sommet B, parametresCroisements globalParametre);
+file* prochainPoints(croisement* c, noeud* u, parametresCroisements globalParametre);
+traj CalculTrajAvecFin(croisement* c, sommet debut, sommet fin, float v, parametresCroisements globalParametre);
+traj CalculTraj(croisement* c, sommet debut, position fin, float v, parametresCroisements globalParametre);

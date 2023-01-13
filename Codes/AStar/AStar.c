@@ -1,4 +1,5 @@
 #include "AStar.h"
+#include "stdlib.h"
 
 void afficher_sommet(sommet s)
 {
@@ -8,7 +9,8 @@ void afficher_sommet(sommet s)
 //--------Comparaison Sommets-----------
 bool memeSommet(sommet A, sommet B)
 {
-    return A.x == B.x && A.y == B.y && A.z == B.z;
+    float precision = 0.1;
+    return A.x == B.x && A.y == B.y && abs(A.z - B.z) < precision;
 }
 
 float distance3D(sommet A, sommet B)
