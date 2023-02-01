@@ -3,7 +3,7 @@ import sys
 
 deltaTime = 2
 prePath = "ResultatSimulation/"
-nomFichier = "test 13|01 4"
+nomFichier = "test 01|02 4"
 path = prePath + nomFichier
 fichier = open(path, "r")
 

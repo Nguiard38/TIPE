@@ -2,13 +2,19 @@ NAvMEsh :
 https://www.cc.gatech.edu/ai/robot-lab/online-publications/ieee/path86.pdf
 https://www.researchgate.net/publication/236903107_A_Navigation_Mesh_for_Dynamic_Environments
 
-Intesection Autonome : 
+Mohamed Tlig, Olivier Buffet, Olivier Simonin : Croisement synchronisé de flux de véhicules autonomes
+dans un réseau
 https://hal.inria.fr/hal-00914578/document
 
-Dresner et Stones : Multi agent reservation
+Dresner et Stones : A Multiagent Approach to Autonomous Intersection Management
 https://www.jair.org/index.php/jair/article/view/10542/25241
 
-Qiu Jin, Guoyuan Wu, Kanok Boriboonsomsin et Mattew Barth : Platoon Based multiagent intersection
+Qiu Jin, Guoyuan Wu, Kanok Boriboonsomsin et Mattew Barth : Platoon-based multi-agent intersection management for connected vehicle
+https://www.researchgate.net/profile/Guoyuan-Wu-2/publication/269332185_Platoon-based_multi-agent_intersection_management_for_connected_vehicle/links/557ed41908aec87640ddeac4/Platoon-based-multi-agent-intersection-management-for-connected-vehicle.pdf
+
+Jian Wang, Yameng Shao, Yeming Ge et Rundong Yu : 
+A Survey of Vehicle to Everything (V2X) Testing
+
 Rasche et Naumann : 
 https://sci-hub.hkvisa.net/10.1109/5254.683216
 

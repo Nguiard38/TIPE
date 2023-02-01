@@ -15,7 +15,7 @@ int main(int argc, char * argv[])
     int tailleTrottoire =40; 
     parametresCroisements globalParametre;
     globalParametre.tailleCroisement = 100;
-    globalParametre.nbrDivision = 200;
+    globalParametre.nbrDivision = 100;
     globalParametre.vitesseMax = 14;
     globalParametre.AccMax = 5;
     globalParametre.intervalleT = 0.2;
@@ -123,7 +123,7 @@ int main(int argc, char * argv[])
             free_pile(trajVoiture.p);
             
         }
-
+        
         c = miseAJourCroisement(c, globalParametre);
         t = t + globalParametre.intervalleT;
         printf("Combien de voiture voulez vous ajouter ? (t : %f)", t);
