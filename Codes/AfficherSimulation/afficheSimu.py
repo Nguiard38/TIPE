@@ -1,37 +1,62 @@
 import pygame as py
 import sys
 
-deltaTime = 2
+grandissement = 10
+
+tailleCroisement = 0
+nbrDivision = 0
+deltaTime = 0
+tailleVoiture = 0
+rapport = 0
 prePath = "ResultatSimulation/"
-nomFichier = "test 01|02 4"
+nomFichier = "Test File 2"
 path = prePath + nomFichier
 fichier = open(path, "r")
 
 tab = fichier.readlines()
 res = {}
 i = 0
+nbrLigne = 0
 print(tab)
 for line in tab:
     if line[0] == 'V':
         i += 1
         print("new voiture")
-    else:
-        print("position voiture %d", i)
+    elif i != 0:
         lineSansRetour = line[:(len(line) - 2)].split()
-        x = 10*int(lineSansRetour[0])
-        y = 10*int(lineSansRetour[1])
+        x = grandissement*int(lineSansRetour[0])//rapport
+        y = grandissement*int(lineSansRetour[1])//rapport
         time = int ((round(float(lineSansRetour[2]),1)*10))
         try: 
             res[time].append((i,x,y))
-            print("append")
         except:
             res[time] = [(i,x,y)]
+    else:
+        if nbrLigne == 0:
+            tailleCroisement = int(line)
+            print(tailleCroisement)
+        elif nbrLigne == 1:
+            nbrDivision = int(line)
+            rapport = nbrDivision/tailleCroisement
+            print(nbrDivision)
+        elif nbrLigne == 2:
+            deltaTime = int ((round(float(line),1)*10))
+            print(deltaTime)
+        else:
+            tailleVoiture = float(line)
+            print(tailleVoiture)
+
+        nbrLigne += 1
+
+
 print(res)
 fichier.close()
 
 
 py.init()
-size = width, height = 1000,1000
+size = width, height = tailleCroisement*grandissement,tailleCroisement*grandissement
+
+
 
 speed = [2, 2]
 
@@ -63,22 +88,15 @@ while True:
             actualTime += deltaTime
             screen.blit(arrierePlan, (0,0))
             for voiture in res[actualTime]:
-                print("blit voiture : ")
-                print(voiture[1:])
                 screen.blit(voitureRouge, voiture[1:])
             py.display.update()
-            print("Espace")
         if event.type == py.KEYDOWN and event.key == py.K_LEFT:
             actualTime -= deltaTime
             screen.blit(arrierePlan, (0,0))
             for voiture in res[actualTime]:
-                print("blit voiture : ")
-                print(voiture[1:])
                 screen.blit(voitureRouge, voiture[1:])
             
             py.display.update()
-            print("Espace")
-    
 
 
 pygame.quit()

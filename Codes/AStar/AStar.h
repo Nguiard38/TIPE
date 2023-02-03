@@ -50,7 +50,9 @@ bool pile_est_vide(pile* p);
 void ajouter_pile(pile* p, sommet A);
 sommet depiler(pile* p);
 void free_pile(pile* p);
-void afficher_pile(pile* p, int indice_voiture, char* nomFichier);
+int tailleStr(char* str);
+char* concat(char* str1, char* str2);
+void afficher_pile(pile* p);
 
 //-----------FILE--------------
 typedef struct noeudFile {

@@ -1,5 +1,30 @@
 #include "../IntersectionController/IntersectionController.h"
 
+void ecrireTrajFichier(pile* p, int indice_voiture, char* nomFichier)
+{
+    char* prePath = "ResultatSimulation/";
+    char* path = concat(prePath, nomFichier);
+    printf("path : %s\n", path);
+
+    FILE* f = fopen(path, "a");
+    free(path);
+    fprintf(f, "Voiture %d\n", indice_voiture);
+    printf("Test 2\n");
+
+    if(p == NULL)
+    {
+        fclose(f);
+        return;
+    }
+    noeudPile* current = p->start;
+    while(current!= NULL)
+    {
+        fprintf(f,"%d %d %f\n", current->val.x, current->val.y, current->val.z);
+        current = current->next;
+    }
+    fclose(f);
+}
+
 bool surTrottoire(int i, int j, int nbrDivision, int tailleTrottoire)
 {
     
@@ -12,14 +37,27 @@ bool surTrottoire(int i, int j, int nbrDivision, int tailleTrottoire)
 
 int main(int argc, char * argv[])
 {
-    int tailleTrottoire =40; 
+    char* pathLecture = argv[1];
+    FILE* fL = fopen(pathLecture, "r");
     parametresCroisements globalParametre;
-    globalParametre.tailleCroisement = 100;
-    globalParametre.nbrDivision = 100;
-    globalParametre.vitesseMax = 14;
-    globalParametre.AccMax = 5;
-    globalParametre.intervalleT = 0.2;
-    globalParametre.tailleVoiture = 2;
+
+    fscanf(fL, "%d", &(globalParametre.tailleCroisement));
+    printf("Taille Croisement : %d\n", globalParametre.tailleCroisement);
+
+    fscanf(fL, "%d", &globalParametre.nbrDivision);
+    printf("Nbr division : %d\n", globalParametre.nbrDivision);
+
+    fscanf(fL, "%d", &globalParametre.vitesseMax);
+    printf("Vmax : %d\n", globalParametre.vitesseMax);
+
+    fscanf(fL, "%d", &globalParametre.AccMax);
+    printf("TAccMax : %d\n", globalParametre.AccMax);
+
+    fscanf(fL, "%f", &globalParametre.intervalleT);
+    printf("intervalleT : %f\n", globalParametre.intervalleT);
+
+    fscanf(fL, "%f", &globalParametre.tailleVoiture);
+    printf("tailleVoiture : %f\n", globalParametre.tailleVoiture);
 
     intersection init = malloc(sizeof(bool*)*globalParametre.nbrDivision);
     
@@ -28,9 +66,43 @@ int main(int argc, char * argv[])
         init[i] = malloc(sizeof(bool)*globalParametre.nbrDivision);
         for(int j = 0; j < globalParametre.nbrDivision; j++)
         {
-            init[i][j] = surTrottoire(i, j, globalParametre.nbrDivision, tailleTrottoire);
+            fscanf(fL, "%d", &init[i][j]);
         }
     }
+    fclose(fL);
+
+    char* prePathEcriture = "ResultatSimulation/";
+    char* pathEcriture = concat(prePathEcriture, argv[2]);
+    if(pathEcriture == NULL)
+    {
+        printf("CHIANT!!!\n");
+    }
+    printf("path : %s\n", pathEcriture);
+
+
+
+    FILE* fR = fopen(pathEcriture, "w");
+    if(fR == NULL)
+    {
+        printf("Erreur d'ouverture\n");
+    }
+    fprintf(fR, "%d\n", globalParametre.tailleCroisement);
+    fprintf(fR, "%d\n", globalParametre.nbrDivision);
+    fprintf(fR, "%f\n", globalParametre.intervalleT);
+    fprintf(fR, "%f\n", globalParametre.tailleVoiture);
+    fclose(fR);
+
+    
+    int tailleTrottoire = 40; 
+    /*
+    for(int i = 0; i < globalParametre.nbrDivision; i++)
+    {
+        init[i] = malloc(sizeof(bool)*globalParametre.nbrDivision);
+        for(int j = 0; j < globalParametre.nbrDivision; j++)
+        {
+            init[i][j] = surTrottoire(i, j, globalParametre.nbrDivision, tailleTrottoire);
+        }
+    }*/
 
     globalParametre.init = init;
     float t = 0.0f;
@@ -114,12 +186,11 @@ int main(int argc, char * argv[])
 
 
             sommet debutT = {debut.x, debut.y, t};
-            printf("Taille croisement : %d\n", globalParametre.nbrDivision);
             traj trajVoiture = CalculTraj(c, debutT, fin, vitesse, globalParametre);
             c = trajVoiture.c;
 
-            afficher_pile(trajVoiture.p, nbVoitureTotal,argv[1]);
-            printf("Wow\n");
+            ecrireTrajFichier(trajVoiture.p, nbVoitureTotal, argv[2]);
+            afficher_pile(trajVoiture.p);
             free_pile(trajVoiture.p);
             
         }
@@ -129,5 +200,5 @@ int main(int argc, char * argv[])
         printf("Combien de voiture voulez vous ajouter ? (t : %f)", t);
         scanf("%d", &nbrVoiture);
     }
-    free_croisement(c, globalParametre);
+    //free_croisement(c, globalParametre);
 }

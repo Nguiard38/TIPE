@@ -77,9 +77,10 @@ int tailleStr(char* str)
 
 char* concat(char* str1, char* str2)
 {
+    
     int n1 = tailleStr(str1);
     int n2 = tailleStr(str2);
-    char* res = malloc(sizeof(char) * (n1+n2+1));
+    char* res = (char*)malloc(sizeof(char) * (n1+n2+1));
     int i,j;
     for(i = 0; i < n1; i++)
     {
@@ -93,27 +94,15 @@ char* concat(char* str1, char* str2)
     return res;
 }
 
-void afficher_pile(pile* p, int indice_voiture, char* nomFichier)
+void afficher_pile(pile* p)
 {
-    char* prePath = "ResultatSimulation/";
-    char* path = concat(prePath, nomFichier);
-
-    printf("path : %s\n", path);
-
-    FILE* f = fopen(path, "w");
-    fseek(f, 0, SEEK_END);
-    free(path);
-    fprintf(f, "Voiture %d\n", indice_voiture);
-    printf("Test 2\n");
     if(p == NULL)
     {
-        fclose(f);
         return;
     }
     noeudPile* current = p->start;
     while(current!= NULL)
     {
-        fprintf(f,"%d %d %f\n", current->val.x, current->val.y, current->val.z);
         afficher_sommet(current->val);
         current = current->next;
         printf("\n");
