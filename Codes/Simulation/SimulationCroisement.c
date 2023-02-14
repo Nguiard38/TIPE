@@ -69,6 +69,7 @@ int main(int argc, char * argv[])
             fscanf(fL, "%d", &init[i][j]);
         }
     }
+    globalParametre.init = init;
     fclose(fL);
 
     char* prePathEcriture = "ResultatSimulation/";
@@ -90,6 +91,15 @@ int main(int argc, char * argv[])
     fprintf(fR, "%d\n", globalParametre.nbrDivision);
     fprintf(fR, "%f\n", globalParametre.intervalleT);
     fprintf(fR, "%f\n", globalParametre.tailleVoiture);
+
+    for(int i = 0; i < globalParametre.nbrDivision; i++)
+    {
+        for(int j = 0; j < globalParametre.nbrDivision; j++)
+        {
+            fprintf(fR, "%d ", globalParametre.init[i][j]);
+        }
+        fprintf(fR, "\n");
+    }
     fclose(fR);
 
     
@@ -104,7 +114,7 @@ int main(int argc, char * argv[])
         }
     }*/
 
-    globalParametre.init = init;
+    
     float t = 0.0f;
     int nbrVoiture = 0;
     int nbVoitureTotal = 0;
