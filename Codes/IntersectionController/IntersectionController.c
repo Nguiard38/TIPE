@@ -129,6 +129,7 @@ traj reconstituerTraj(sommet debut, noeud* fin, croisement* c, parametresCroisem
     current->etat[debut.x][debut.y] = true;
     ajouter_pile(p, debut);
     traj res = {taille, p, current};
+    printf("Res reconstitue traj\n");
     return res;
 }
 
@@ -155,6 +156,22 @@ float acc(noeud* A, sommet B, parametresCroisements globalParametre)
     return A->v - vitesse(A->s, B, globalParametre);
 }
 
+bool aCoteOccupe(intersection etat, int i, int j,parametresCroisements globalParametre)
+{
+    int secu = 2;
+    for(int x = -secu; x <= secu; x++)
+    {
+        for(int y = -secu; y <= secu; y++)
+        {
+            if(x + i >= 0 && x + i < globalParametre.nbrDivision && y + j >= 0 && y + j < globalParametre.nbrDivision && etat[x+i][y+j])
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 file* prochainPoints(croisement* c, noeud* u, parametresCroisements globalParametre)
 {
     file* voisins = creer_file_vide();
@@ -177,7 +194,7 @@ file* prochainPoints(croisement* c, noeud* u, parametresCroisements globalParame
                 {
                     if(c != NULL)
                     {
-                        if(!c->etat[u->s.x + i][u->s.y + j])
+                        if(!aCoteOccupe(c->etat, u->s.x + i, u->s.y + j, globalParametre))
                         {
                             ajouter_file(voisins, new);
                         }
@@ -188,7 +205,7 @@ file* prochainPoints(croisement* c, noeud* u, parametresCroisements globalParame
                     }
                     else
                     {
-                        if(!globalParametre.init[u->s.x + i][u->s.y + j])
+                        if(!aCoteOccupe(globalParametre.init, u->s.x + i, u->s.y + j, globalParametre))
                         {
                             ajouter_file(voisins, new);
                         }
@@ -235,8 +252,8 @@ traj CalculTrajAvecFin(croisement* c, sommet debut, sommet fin, float v, paramet
         if(memeSommet(u->s, fin))
         {
             traj res = reconstituerTraj(debut, u, c, globalParametre);
-            free_file(closed);
-            free_file(open);
+            //free_file(closed);
+            //free_file(open);
             return res;
         }
         if(u->s.z >= fin.z)
@@ -278,7 +295,7 @@ traj CalculTrajAvecFin(croisement* c, sommet debut, sommet fin, float v, paramet
     
     pasChemin.p = NULL;
     pasChemin.c = c;
-    printf("Chemin non existant\n");
+   // printf("Chemin non existant\n");
     return pasChemin;
 
 }
