@@ -10,7 +10,7 @@ void afficher_sommet(sommet s)
 bool memeSommet(sommet A, sommet B)
 {
     float precision = 0.1;
-    return A.x == B.x && A.y == B.y && abs(A.z - B.z) < precision;
+    return A.x == B.x && A.y == B.y && fabs(A.z - B.z) < precision;
 }
 
 float distance3D(sommet A, sommet B)

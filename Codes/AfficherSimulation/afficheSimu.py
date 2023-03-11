@@ -10,9 +10,8 @@ deltaTime = 0
 tailleVoiture = 0
 rapport = 0
 init = []
-prePath = "ResultatSimulation/"
 nomFichier = sys.argv[1]
-path = prePath + nomFichier
+path = nomFichier
 fichier = open(path, "r")
 
 tailleCroisement = int(fichier.readline())

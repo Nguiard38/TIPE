@@ -26,6 +26,22 @@ void ecrireTrajFichier(pile* p, int indice_voiture, char* nomFichier)
     fclose(f);
 }
 
+bool placeLibreACote(intersection etat, int i, int j, parametresCroisements globalParametre, int secu)
+{
+    for(int x = -secu; x <= secu; x++)
+    {
+        for(int y = -secu; y <= secu; y++)
+        {
+            if(x + i >= 0 && x + i < globalParametre.nbrDivision && y + j >= 0 && y + j < globalParametre.nbrDivision && !etat[x+i][y+j])
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+
 int main(int argc, char * argv[])
 {
     srand(time(NULL));
@@ -58,7 +74,9 @@ int main(int argc, char * argv[])
         init[i] = malloc(sizeof(bool)*globalParametre.nbrDivision);
         for(int j = 0; j < globalParametre.nbrDivision; j++)
         {
-            fscanf(fL, "%d", &init[i][j]);
+            int cur;
+            fscanf(fL, "%d", &cur);
+            init[i][j] = cur;
         }
     }
     globalParametre.init = init;
@@ -203,9 +221,12 @@ int main(int argc, char * argv[])
             free_pile(trajVoiture.p);
             
         }
+        for(int i = 0; i < 4; i++)
+        {
+            c = miseAJourCroisement(c, globalParametre);
+            t = t + globalParametre.intervalleT;
+        }
         
-        c = miseAJourCroisement(c, globalParametre);
-        t = t + globalParametre.intervalleT;
         nbrVoiture = rand() % 10;
         nbrVoiture -= 7;
         if(nbrVoiture < 0)
@@ -213,7 +234,7 @@ int main(int argc, char * argv[])
             nbrVoiture = 0;
         }
         printf("Nopvre de voitures : %d\n", nbrVoiture);
-        arret = rand() % 10;
+        arret = rand() % 100;
         
     }
     //free_croisement(c, globalParametre);
