@@ -6,7 +6,6 @@ void ecrireTrajFichier(pile* p, int indice_voiture, char* nomFichier, croisement
     char* prePath = "ResultatSimulation/";
     char* path = concat(prePath, nomFichier);
     printf("path : %s\n", path);
-
     FILE* f = fopen(path, "a");
     free(path);
     fprintf(f, "Voiture %d\n", indice_voiture);
@@ -22,7 +21,7 @@ void ecrireTrajFichier(pile* p, int indice_voiture, char* nomFichier, croisement
     {
         fprintf(f,"%d %d %f\n", current->val.x, current->val.y, current->val.z);
         //Faire apparaitre le croisement dans le fichier
-        
+        /*
         for(int i = 0; i < globalParametre.nbrDivision; i++)
         {
             for(int j = 0; j < globalParametre.nbrDivision; j++)
@@ -32,7 +31,8 @@ void ecrireTrajFichier(pile* p, int indice_voiture, char* nomFichier, croisement
             fprintf(f, "\n");
         }
         currentCroisement = currentCroisement->next;
-        
+        */
+
         current = current->next;
         
     }
@@ -51,6 +51,8 @@ bool surTrottoire(int i, int j, int nbrDivision, int tailleTrottoire)
 
 bool placeLibreACote(intersection etat, int i, int j, parametresCroisements globalParametre, int secu)
 {
+
+    //renvoie si il y a une place libre autour de i,j avec un carre de cote 2*secu + 1
     for(int x = -secu; x <= secu; x++)
     {
         for(int y = -secu; y <= secu; y++)
@@ -108,6 +110,7 @@ position EntreUtilisateurDebut(int nbVoitureTotal, parametresCroisements globalP
 
     if(c == NULL)
     {
+        //Si pas de voiture dans le croisement on check dans le croisement init
         while(!placeLibreACote(globalParametre.init, debut.x, debut.y, globalParametre, nbrCase +1))
         {
             printf("Tu ne peux pas commencer par la il y a deja du monde\n");
@@ -135,6 +138,7 @@ position EntreUtilisateurDebut(int nbVoitureTotal, parametresCroisements globalP
     }
     else
     {
+        //Sinon on check dans le croisement actuel 
         while(!placeLibreACote(c->etat, debut.x, debut.y, globalParametre, 1))
         {
             printf("Tu ne peux pas commencer par la il y a deja du monde\n");
@@ -166,6 +170,7 @@ position EntreUtilisateurDebut(int nbVoitureTotal, parametresCroisements globalP
 
 int main(int argc, char * argv[])
 {
+    //---------Recup info croisement dans le fichier-----------------
     char* pathLecture = argv[1];
     FILE* fL = fopen(pathLecture, "r");
     parametresCroisements globalParametre;
@@ -205,6 +210,8 @@ int main(int argc, char * argv[])
     globalParametre.init = init;
     fclose(fL);
 
+
+    //----------------Ecriture des info du croisement dans le nouveau fichier---------------------------
     char* prePathEcriture = "ResultatSimulation/";
     char* pathEcriture = concat(prePathEcriture, argv[2]);
     if(pathEcriture == NULL)
@@ -236,7 +243,7 @@ int main(int argc, char * argv[])
     }
     fclose(fR);
 
-    
+    //--------------------------Simulation-------------------------------------
     int tailleTrottoire = 40;  
     float t = 0.0f;
     int nbrVoiture = 0;
@@ -302,9 +309,10 @@ int main(int argc, char * argv[])
             sommet finAff = {fin.x, fin.y, 0};
             afficher_sommet(finAff);
             printf("\n");
+
+            //Lancer le calcul de la trajectoire de la voiture
             traj trajVoiture = CalculTraj(c, debutT, fin, vitesse, globalParametre);
             c = trajVoiture.c;
-
             ecrireTrajFichier(trajVoiture.p, nbVoitureTotal, argv[2], c, globalParametre);
             afficher_pile(trajVoiture.p);
             free_pile(trajVoiture.p);

@@ -7,7 +7,7 @@ void free_croisement(croisement* c, parametresCroisements globalParametre)
     croisement* current = c;
     while(current != NULL)
     {
-        printf("Lib intersection t = %f\n", current->t0);
+        //printf("Lib intersection t = %f\n", current->t0);
         croisement* aLib = current;
         current = current->next;
         for(int i = 0; i < globalParametre.nbrDivision; i++)
@@ -22,6 +22,7 @@ void free_croisement(croisement* c, parametresCroisements globalParametre)
 
 croisement* miseAJourCroisement(croisement* c, parametresCroisements globalParametre)
 {
+
     if(c != NULL)
     {
         c = c->next;
@@ -50,6 +51,7 @@ traj reconstituerTraj(sommet debut, noeud* fin, croisement* c, parametresCroisem
     croisement* currentPrec = NULL;
     float t;
 
+    //Va au temps le plus près du temps final qui existe dans le croisement
     if(current == NULL)
     {
         t = debut.z;
@@ -67,6 +69,7 @@ traj reconstituerTraj(sommet debut, noeud* fin, croisement* c, parametresCroisem
     }
     
 
+    //Creer les intersection qui n'existe pas jusqu'à l'intersection du temps final
     while(t < fin->s.z + globalParametre.intervalleT)
     {
         printf("Creer nouvelle intersection t = %f\n", t);
@@ -107,12 +110,12 @@ traj reconstituerTraj(sommet debut, noeud* fin, croisement* c, parametresCroisem
 
     float tailleCase = ((float)globalParametre.tailleCroisement/(float)globalParametre.nbrDivision);
     int nbrCase = (globalParametre.tailleVoiture - tailleCase)/(2*tailleCase);
-
+    //Parcours les sommet dans le sens inverse pour mettre les sommets dud trajet dans la pile
     while(!memeSommet(actual->s, debut))
     {
         taille++;
-        //Mettre a jour la hitbox de la voiture
-        
+
+        //Mettre dans l'intersection la voiture avec une taille de 2*nbrCase+1
         if(nbrCase < 0)
         {
             nbrCase = 0;
@@ -182,6 +185,7 @@ float acc(noeud* A, sommet B, parametresCroisements globalParametre)
 
 bool aCoteOccupe(intersection etat, int i, int j,parametresCroisements globalParametre, int secu)
 {
+    //retourne si au moins une case de le carre de cote 2*secu+1 est occupe
     for(int x = -secu; x <= secu; x++)
     {
         for(int y = -secu; y <= secu; y++)
@@ -280,13 +284,14 @@ traj CalculTrajAvecFin(croisement* c, sommet debut, sommet fin, float v, paramet
         noeud* u = defiler_prio(open);
         if(file_est_vide(open))
         {
-            printf("Plus rien dans open\n");
+            //printf("Plus rien dans open\n");
         }
+        /*
         afficher_sommet(u->s);
         printf("Cout : %f\n", u->cout);
         printf("Distance au but : %f\n", distance3D(u->s, fin));
         printf("Heuristic : %f\n", u->heuristic);
-
+        */
         ajouter_file(closed, u);
         if(memeSommet(u->s, fin))
         {
@@ -315,19 +320,20 @@ traj CalculTrajAvecFin(croisement* c, sommet debut, sommet fin, float v, paramet
         {
             //printf("Pas de nouveau point\n");
         }
-        printf("----Prochain Points------\n");
+        //printf("----Prochain Points------\n");
         while(!file_est_vide(voisins))
         {
             
             noeud* v = defiler(voisins);
-            v->cout = u->cout + distance3D(u->s, v->s)/2;
+            //v->cout = u->cout + distance3D(u->s, v->s);
+            v->cout = 0;
             v->heuristic = v->cout + distance3D(v->s, fin);
             v->prec = u;
-            afficher_sommet(v->s);
+            /*afficher_sommet(v->s);
             printf("Cout : %f\n", v->cout);
             printf("Distance au precedant : %f\n", distance3D(u->s, v->s));
             printf("Distance au but : %f\n", distance3D(v->s, fin));
-            printf("Heuristic : %f\n", v->heuristic);
+            printf("Heuristic : %f\n", v->heuristic);*/
             if(!appartient(closed, v))
             {
                 mettreAJour(open,v);
@@ -336,9 +342,10 @@ traj CalculTrajAvecFin(croisement* c, sommet debut, sommet fin, float v, paramet
             {
                 free(v);
             }  
+            //getchar();
         }
         free(voisins);
-        printf("----Fin Points------\n");
+        //printf("----Fin Points------\n");
         
     }
     

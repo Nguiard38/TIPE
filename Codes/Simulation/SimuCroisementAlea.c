@@ -1,12 +1,11 @@
 #include "../IntersectionController/IntersectionController.h"
 
-void ecrireTrajFichier(pile* p, int indice_voiture, char* nomFichier)
+void ecrireTrajFichier(pile* p, int indice_voiture, char* nomFichier, croisement* c, parametresCroisements globalParametre)
 {
-    printf("CoucoU\n");
+    croisement* currentCroisement = c;
     char* prePath = "ResultatSimulation/";
     char* path = concat(prePath, nomFichier);
     printf("path : %s\n", path);
-
     FILE* f = fopen(path, "a");
     free(path);
     fprintf(f, "Voiture %d\n", indice_voiture);
@@ -21,7 +20,21 @@ void ecrireTrajFichier(pile* p, int indice_voiture, char* nomFichier)
     while(current!= NULL)
     {
         fprintf(f,"%d %d %f\n", current->val.x, current->val.y, current->val.z);
+        //Faire apparaitre le croisement dans le fichier
+        
+        for(int i = 0; i < globalParametre.nbrDivision; i++)
+        {
+            for(int j = 0; j < globalParametre.nbrDivision; j++)
+            {
+                fprintf(f, "%d ", currentCroisement->etat[j][i]);
+            }
+            fprintf(f, "\n");
+        }
+        currentCroisement = currentCroisement->next;
+        
+
         current = current->next;
+        
     }
     fclose(f);
 }
@@ -204,7 +217,7 @@ int main(int argc, char * argv[])
             }
 
             float vitesse;
-            vitesse = 0;
+            vitesse = 5;
 
             if(vitesse > globalParametre.vitesseMax)
             {
@@ -216,7 +229,7 @@ int main(int argc, char * argv[])
             traj trajVoiture = CalculTraj(c, debutT, fin, vitesse, globalParametre);
         
             c = trajVoiture.c;
-            ecrireTrajFichier(trajVoiture.p, nbVoitureTotal, argv[2]);
+            ecrireTrajFichier(trajVoiture.p, nbVoitureTotal, argv[2], c, globalParametre);
             afficher_pile(trajVoiture.p);
             free_pile(trajVoiture.p);
             
@@ -234,7 +247,7 @@ int main(int argc, char * argv[])
             nbrVoiture = 0;
         }
         printf("Nopvre de voitures : %d\n", nbrVoiture);
-        arret = rand() % 100;
+        arret = rand() % 50;
         
     }
     //free_croisement(c, globalParametre);
